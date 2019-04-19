@@ -1,0 +1,7 @@
+
+filenames = importdata('data.txt');
+save filenames.mat
+
+
+M=csvread('data.csv')
+save('filenames.mat','M')
