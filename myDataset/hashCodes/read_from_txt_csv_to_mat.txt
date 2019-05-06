@@ -1,7 +1,12 @@
 
-filenames = importdata('data.txt');
+filenames = importdata('filenames.txt');
 save filenames.mat
 
 
-M=csvread('data.csv')
-save('filenames.mat','M')
+M=csvread('Y.csv');
+save('targets.mat','M');
+
+
+
+hashCodes_1024 = importdata('hashCodes/dmlvh2_mLSTM_1024.txt');
+>> save hashCodes_1024.mat;
