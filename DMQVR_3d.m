@@ -81,6 +81,9 @@ function Dataset_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns Dataset contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from Dataset
+
+
+
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
     case 1
@@ -106,7 +109,10 @@ load([data_dir '/targets']);
 
 
 handles.filenames = filenames;
-handles.targets = targets;
+handles.targets   = targets;
+handles.video_dir = video_dir;
+handles.data_dir  = data_dir;
+handles.maxFront  = maxFront;
 
 
 set(handles.QueryName1,'String', filenames);
@@ -284,7 +290,8 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     
-    targets = handles.targets;
+    targets  = handles.targets;
+    maxFront = handles.maxFront;
 
     queryIndex1 = handles.q1Idx;
     queryIndex2 = handles.q2Idx;
@@ -332,7 +339,7 @@ set(handles.tictoc,'String',num2str(t))
      %scatter3(X(:,1),X(:,2),X(:,3),'k.');
      
     
-    maxFront = 5;
+   
     [pf_idx] = pareto_fronts(X, maxFront);
     for k=1:1
         scatter3(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , pf_idx{k,1}(:,3)); 
@@ -359,9 +366,10 @@ function FrontSelector_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
-targets = handles.targets;
+targets  = handles.targets;
+maxFront = handles.maxFront;
 
-maxFront = 5;
+
 currentFront = ((round(1+(maxFront-1)*get(hObject,'Value'))));
 
 %set(handles.FrontIdx,'String',['Pareto depth:' num2str(currentFront)] );
@@ -378,7 +386,7 @@ view(3);
 rotate3d on;
 hold on;
 
- maxFront = 5;
+ 
  [pf_idx] = pareto_fronts(X, maxFront);
  
  %for k=1:maxFront
@@ -592,7 +600,7 @@ function ImageSelector_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 
-
+maxFront = handles.maxFront;
 
 pf_idx = handles.pf_idx;
 X = handles.X;
@@ -624,7 +632,7 @@ rotate3d on;
 hold on;
 
 
-maxFront = 5;
+
 [pf_idx] = pareto_fronts(X, maxFront);
  %for k=1:maxFront
  %       plot3(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) ,pf_idx{k,1}(:,3), 'y-');
@@ -1303,7 +1311,7 @@ set(handles.tictoc2,'String',num2str(t))
      %scatter3(X(:,1),X(:,2),X(:,3),'k.');
      
     
-    maxFront = 5;
+  
     [pf_idx] = pareto_fronts(X, maxFront);
     for k=1:maxFront
         scatter3(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , pf_idx{k,1}(:,3)); 
@@ -1377,11 +1385,11 @@ function hashCodeSelection_3d_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns hashCodeSelection_3d contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from hashCodeSelection_3d
 
-video_dir =[pwd '/myDataset/videoFolder/']; 
-data_dir = [pwd '/myDataset/hashCodes'];
 
-filenames = handles.filenames;
-targets   = handles.targets;
+
+video_dir = handles.video_dir;
+data_dir  = handles.data_dir;
+
 % load([data_dir '/filenames']); % File names
 % load([data_dir '/targets']);   % Labels
 
@@ -1392,29 +1400,24 @@ switch hashCode_index
     case 1
         load([data_dir '/hashCodes_128']); 
         data = hashCodes_128;
-        handles.data = data;
-        guidata(hObject, handles);
+        
     case 2
         load([data_dir '/hashCodes_256']); 
         data = hashCodes_256;
-        handles.data = data;
-        guidata(hObject, handles);
+        
     case 3
         load([data_dir '/hashCodes_512']); 
         data = hashCodes_512;
-        handles.data = data;
-        guidata(hObject, handles);
+       
     case 4
         load([data_dir '/hashCodes_1024']); 
         data = hashCodes_1024;
-        handles.data = data;
-        guidata(hObject, handles);
+            
 end
 
-handles.video_dir = video_dir;
-handles_data_dir = data_dir;
+
 handles.data = data;
- guidata(hObject, handles);
+guidata(hObject, handles);
 
 
 

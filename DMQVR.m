@@ -22,7 +22,7 @@ function varargout = DMQVR(varargin)
 
 % Edit the above text to modify the response to help DMQVR
 
-% Last Modified by GUIDE v2.5 17-Apr-2019 13:41:45
+% Last Modified by GUIDE v2.5 07-May-2019 04:16:16
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,7 +83,7 @@ function Dataset_Callback(hObject, eventdata, handles)
 %        contents{get(hObject,'Value')} returns selected item from Dataset
 
 
-
+maxFront = 5;
 
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
@@ -94,8 +94,8 @@ switch dataset_index
         colorData = 0;   
         
     case 2
-        video_dir =[pwd '/myDataset/videoFolder/']; 
-        data_dir = [pwd '/myDataset/hashCodes/'];
+        video_dir =[pwd '/myDataset2/videoFolder/']; 
+        data_dir = [pwd '/myDataset2/hashCodes/'];
        
         colorData = 0;    
 end
@@ -111,6 +111,9 @@ load([data_dir '/targets']);
 
 handles.filenames = filenames;
 handles.targets = targets;
+handles.video_dir = video_dir;
+handles.data_dir  = data_dir;
+handles.maxFront = maxFront;
 
 
 set(handles.QueryName1,'String', filenames);
@@ -228,7 +231,8 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     
-    targets = handles.targets;
+    maxFront = handles.maxFront;
+    targets  = handles.targets;
 
     queryIndex1 = handles.q1Idx;
     queryIndex2 = handles.q2Idx;
@@ -267,7 +271,7 @@ set(handles.tictoc,'String',num2str(t))
     
      
     
-    maxFront = 5;
+   
     [pf_idx] = pareto_fronts(X, maxFront);
     for k=1:maxFront
         plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
@@ -294,8 +298,8 @@ function FrontSelector_Callback(hObject, eventdata, handles)
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
 targets = handles.targets;
+maxFront = handles.maxFront;
 
-maxFront = 5;
 currentFront = ((round(1+(maxFront-1)*get(hObject,'Value'))));
 
 %set(handles.FrontIdx,'String',['Pareto depth:' num2str(currentFront)] );
@@ -515,7 +519,7 @@ function ImageSelector_Callback(hObject, eventdata, handles)
 
 
 
-
+maxFront = handles.maxFront;
 pf_idx = handles.pf_idx;
 X = handles.X;
 currentFront = handles.currentFront ;
@@ -543,7 +547,7 @@ hold off; plot(handles.X(:,1),handles.X(:,2),'.');
 hold on;
 
 
-maxFront = 5;
+
  [pf_idx] = pareto_fronts(X, maxFront);
  for k=1:maxFront
         plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
@@ -1174,7 +1178,7 @@ function pushbutton11_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
- 
+    maxFront = handles.maxFront;
     queryIndex1 = handles.q1Idx;
     queryIndex2 = handles.q2Idx;
     data = handles.data;
@@ -1214,7 +1218,7 @@ set(handles.tictoc2,'String',num2str(t))
     
      
     
-    maxFront = 5;
+  
     [pf_idx] = pareto_fronts(X, maxFront);
     for k=1:maxFront
         plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
@@ -1267,11 +1271,12 @@ function hashCodeSelection_Callback(hObject, eventdata, handles)
 %        contents{get(hObject,'Value')} returns selected item from hashCodeSelection
 
 
-video_dir =[pwd '/myDataset/videoFolder/']; 
-data_dir = [pwd '/myDataset/hashCodes'];
 
 filenames = handles.filenames;
 targets   = handles.targets;
+video_dir = handles.video_dir;
+data_dir  = handles.data_dir;
+
 % load([data_dir '/filenames']); % File names
 % load([data_dir '/targets']);   % Labels
 
@@ -1302,8 +1307,6 @@ end
 %handles.filenames = filenames;
 %handles.targets = targets;
 handles.data = data;
-handles.video_dir = video_dir;
-handles.data_dir = data_dir;
 
 
 guidata(hObject, handles);
@@ -1343,3 +1346,10 @@ function num_pp_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes during object creation, after setting all properties.
+function text13_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to text13 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
