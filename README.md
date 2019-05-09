@@ -1,1 +1,1 @@
-Deep Multy Query Video Retrieval
+DEEP MULTY QUERY VIDEO RETRIEVAL
