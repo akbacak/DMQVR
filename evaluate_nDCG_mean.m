@@ -3,7 +3,7 @@
 % Marmara University, Istanbul
 % akbacakk@gmail.com
 % This file averages nDCG scores of all the fronts produced by
-% "evaluate_by_multiple_query_pairs.m" script in the current directory
+% "evaluate_by_multiple_query_pairs.m" and evaluate_by_multiple_query_triples script in the current directory
 % 
 % 
 %
