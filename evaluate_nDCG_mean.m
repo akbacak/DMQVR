@@ -10,9 +10,9 @@
 %*****************************************************************************************
 
 
- evaluate_by_multiple_query_pairs;
+ % evaluate_by_multiple_query_pairs;
 
-
+ evaluate_by_multiple_query_triples;
 
 
 
