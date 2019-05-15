@@ -3,4 +3,6 @@ system('sh  ./Python/extractFrames.sh');
 
 system('python Python/genNP.py');
 
-genQueryHashCodes
+system('python Python/genHashCodes.py');
+
+system('python Python/genLabels.py');
