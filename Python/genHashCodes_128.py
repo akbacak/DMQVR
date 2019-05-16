@@ -30,7 +30,7 @@ for file in listing:
     batch_size = 48
     XX = base_model.predict(X, batch_size=batch_size, verbose=0, steps=None)
     print(XX.shape)
-    np.save(open("Python/" + file + ".npy", 'w'), XX)
+    np.save(open("Python/Outputs/" + file + ".npy", 'w'), XX)
 
 
 
@@ -62,7 +62,7 @@ model = Model(inputs=model.input, outputs=model.get_layer('dense_1').output) # d
 
 
 X1 = []
-X1 = np.load(open("Python/video_1.npy"))
+X1 = np.load(open("Python/Outputs/video_1.npy"))
 X1.shape
 print(X1.shape[:])
 X1 = X1.reshape(1, X1.shape[0], X1.shape[1] * X1.shape[2] * X1.shape[3] )
@@ -72,7 +72,7 @@ binary_codes_1 = binary_codes_1.astype(int)
 binary_codes_1 = binary_codes_1
 
 X2 = []
-X2 = np.load(open("Python/video_2.npy"))
+X2 = np.load(open("Python/Outputs/video_2.npy"))
 X2.shape
 print(X2.shape[:])
 X2 = X2.reshape(1, X2.shape[0], X2.shape[1] * X2.shape[2] * X2.shape[3] )
@@ -82,8 +82,8 @@ binary_codes_2 = binary_codes_2.astype(int)
 
 
 
-np.savetxt('Python/hashCodes_q1.txt', binary_codes_1,  fmt='%d',  delimiter=',')
-np.savetxt('Python/hashCodes_q2.txt', binary_codes_2,  fmt='%d',  delimiter=',')
+np.savetxt('Python/Outputs/hashCodes_q1.txt', binary_codes_1,  fmt='%d',  delimiter=',')
+np.savetxt('Python/Outputs/hashCodes_q2.txt', binary_codes_2,  fmt='%d',  delimiter=',')
 
 
 

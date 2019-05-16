@@ -21,7 +21,7 @@ model = Model(inputs=model.input, outputs=model.get_layer('dense_2').output) # d
 
 
 X1 = []
-X1 = np.load(open("/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/video_1.npy"))
+X1 = np.load(open("/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/video_1.npy"))
 X1.shape
 print(X1.shape[:])
 X1 = X1.reshape(1, X1.shape[0], X1.shape[1] * X1.shape[2] * X1.shape[3] )
@@ -30,7 +30,7 @@ binary_codes_1 = binary_codes_1 > 0.5
 binary_codes_1 = binary_codes_1.astype(int)
 
 X2 = []
-X2 = np.load(open("/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/video_2.npy"))
+X2 = np.load(open("/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/video_2.npy"))
 X2.shape
 print(X2.shape[:])
 X2 = X2.reshape(1, X2.shape[0], X2.shape[1] * X2.shape[2] * X2.shape[3] )
@@ -40,7 +40,7 @@ binary_codes_2 = binary_codes_2.astype(int)
 
 
 
-np.savetxt('Python/label_q1.txt', binary_codes_1,  fmt='%d',  delimiter=',')
-np.savetxt('Python/label_q2.txt', binary_codes_2,  fmt='%d',  delimiter=',')
+np.savetxt('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt', binary_codes_1,  fmt='%d',  delimiter=',')
+np.savetxt('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt', binary_codes_2,  fmt='%d',  delimiter=',')
 
 
