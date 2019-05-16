@@ -265,9 +265,8 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     data = handles.data;
     
    
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/hashCodes_q1.txt');
-    
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/hashCodes_q2.txt');
+    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');    
+    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
        
         
      %q1 = q1';
@@ -362,11 +361,11 @@ set(handles.FrontNum,'String',num2str(currentFront));
     
     data = handles.data;
     
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/hashCodes_q1.txt');
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/hashCodes_q2.txt');
+    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
+    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
        
-    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/label_q1.txt');
-    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/label_q2.txt');
+    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt');
+    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
        
     
         
@@ -1034,175 +1033,8 @@ set(handles.Status,'String','Done');
 guidata(hObject, handles);
 
 
-% --- Executes on button press in pushbutton6.
-function pushbutton6_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton6 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-dataset_index = get(handles.Dataset, 'Value');
-switch dataset_index 
-    case 1
-        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
-        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
-        colorData = 0;   
-        
-    case 2
-        image_dir =[pwd '/newdbDataset/scene_categories/']; 
-        data_dir = [pwd '/newdbDataset/preprocessed_features'];
-        colorData = 0;    
-end
-% if(colorData == 1)
-% load([data_dir '/colorLabel']);
-% handles.colorLabel = colorLabel;
-% end
-
-set(handles.Status,'String','Loading...');pause(0.3);
-load([data_dir '/filenames']);
-load([data_dir '/targets']);
-load([data_dir '/pyramid_all_64']);set(handles.Status,'String','Loading 50%...');pause(0.3);
-
-handles.filenames = filenames;
-handles.data = pyramid_all_64;
-handles.targets = targets;
-
-set(handles.Status,'String','Done');
-set(handles.QueryName1,'String', filenames);
-set(handles.QueryName2,'String', filenames);
-
-handles.image_dir = image_dir;
-set(handles.Status,'String','Loading');
-set(handles.Status,'String','Done');
-
-guidata(hObject, handles);
 
 
-% --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton7 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-dataset_index = get(handles.Dataset, 'Value');
-switch dataset_index 
-    case 1
-        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
-        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
-        colorData = 0;   
-        
-    case 2
-        image_dir =[pwd '/newdbDataset/scene_categories/']; 
-        data_dir = [pwd '/newdbDataset/preprocessed_features'];
-        colorData = 0;    
-end
-% if(colorData == 1)
-% load([data_dir '/colorLabel']);
-% handles.colorLabel = colorLabel;
-% end
-
-set(handles.Status,'String','Loading...');pause(0.3);
-load([data_dir '/filenames']);
-load([data_dir '/targets']);
-load([data_dir '/pyramid_all_96']);set(handles.Status,'String','Loading 50%...');pause(0.3);
-
-handles.filenames = filenames;
-handles.data = pyramid_all_96;
-handles.targets = targets;
-
-set(handles.Status,'String','Done');
-set(handles.QueryName1,'String', filenames);
-set(handles.QueryName2,'String', filenames);
-
-handles.image_dir = image_dir;
-set(handles.Status,'String','Loading');
-set(handles.Status,'String','Done');
-
-guidata(hObject, handles);
-
-
-% --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton8 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-dataset_index = get(handles.Dataset, 'Value');
-switch dataset_index 
-    case 1
-        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
-        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
-        colorData = 0;   
-        
-    case 2
-        image_dir =[pwd '/newdbDataset/scene_categories/']; 
-        data_dir = [pwd '/newdbDataset/preprocessed_features'];
-        colorData = 0;    
-end
-% if(colorData == 1)
-% load([data_dir '/colorLabel']);
-% handles.colorLabel = colorLabel;
-% end
-
-set(handles.Status,'String','Loading...');pause(0.3);
-load([data_dir '/filenames']);
-load([data_dir '/targets']);
-load([data_dir '/pyramid_all_256']);set(handles.Status,'String','Loading 50%...');pause(0.3);
-
-handles.filenames = filenames;
-handles.data = pyramid_all_256;
-handles.targets = targets;
-
-set(handles.Status,'String','Done');
-set(handles.QueryName1,'String', filenames);
-set(handles.QueryName2,'String', filenames);
-
-handles.image_dir = image_dir;
-set(handles.Status,'String','Loading');
-set(handles.Status,'String','Done');
-
-guidata(hObject, handles);
-
-
-% --- Executes on button press in pushbutton9.
-function pushbutton9_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton9 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-dataset_index = get(handles.Dataset, 'Value');
-switch dataset_index 
-    case 1
-        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
-        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
-        colorData = 0;   
-        
-    case 2
-        image_dir =[pwd '/newdbDataset/scene_categories/']; 
-        data_dir = [pwd '/newdbDataset/preprocessed_features'];
-        colorData = 0;    
-end
-% if(colorData == 1)
-% load([data_dir '/colorLabel']);
-% handles.colorLabel = colorLabel;
-% end
-
-set(handles.Status,'String','Loading...');pause(0.3);
-load([data_dir '/filenames']);
-load([data_dir '/targets']);
-load([data_dir '/pyramid_all_Caffe_ssdh48_v3']);set(handles.Status,'String','Loading 50%...');pause(0.3);
-
-handles.filenames = filenames;
-handles.data = pyramid_all_Caffe_ssdh48_v3;
-handles.targets = targets;
-
-set(handles.Status,'String','Done');
-set(handles.QueryName1,'String', filenames);
-set(handles.QueryName2,'String', filenames);
-
-handles.image_dir = image_dir;
-set(handles.Status,'String','Loading');
-set(handles.Status,'String','Done');
-
-guidata(hObject, handles);
 
 
 
@@ -1274,67 +1106,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton11.
-function pushbutton11_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton11 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-    
-    maxFront = handles.maxFront;
-    
-    queryIndex1 = handles.q1Idx;
-    queryIndex2 = handles.q2Idx;
-    data = handles.data;
-    q1 = data(queryIndex1,:);
-    q2 = data(queryIndex2,:);
-    
-    
-    %     Ranking with EMR
-    N = length(handles.filenames);
-tic    
-    [H A landmarks Z] = EMRcomputeModel(handles.data);
-    y1 = zeros(N,1);
-    y1(queryIndex1) = 1;
-    y2 = zeros(N,1);
-    y2(queryIndex2) = 1;
-    
-    simEMR1 = EMRscore(H ,A, y1);
-    simEMR2 = EMRscore(H ,A, y2);
-    dist1 = 1-simEMR1;
-    dist2 = 1-simEMR2;
-       
-t = toc;
-set(handles.tictoc2,'String',num2str(t))
 
-    X = zeros(2,N);
-    X(1,:) = dist1;
-    X(2,:) = dist2;
-    
-    X = (X)';
-    
-    [K,L] = size(unique(X,'rows'));  %% Number of unique pareto points 
-    set(handles.num_pp_v2,'String',num2str(K))
-    
-    axes(handles.axes3);
-    hold off; plot(X(:,1),X(:,2),'.');
-    hold on; 
-    
-     
-    
- 
-    [pf_idx] = pareto_fronts(X, maxFront);
-    for k=1:maxFront
-        plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
-    end
-    xlabel('c1');
-    ylabel('c2'); 
-
-   
-    handles.pf_idx = pf_idx;
-    handles.X = X;
-       
-    
-    guidata(hObject, handles);
 
 
 function tictoc2_Callback(hObject, eventdata, handles)
@@ -1945,11 +1717,11 @@ X = handles.X;
     
     
     data = handles.data;
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/hashCodes_q1.txt');
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/hashCodes_q2.txt');
+    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
+    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
        
-    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/label_q1.txt');
-    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/label_q2.txt');
+    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt');
+    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
         
     b = or(q1_label , q2_label); % beta in the equation 7
     absolute_b = nnz(b);         % Number of non-zero elements in the beta, nnz is a Matlab Func.
