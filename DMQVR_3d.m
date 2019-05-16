@@ -82,7 +82,7 @@ function Dataset_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns Dataset contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from Dataset
 
-
+maxFront = 3;
 
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
