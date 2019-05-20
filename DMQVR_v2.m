@@ -81,19 +81,21 @@ function Dataset_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns Dataset contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from Dataset
-maxFront = 3;
+maxFront = 5;
 
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
     case 1
         video_dir =[pwd '/myDataset/videoFolder/']; 
         data_dir = [pwd '/myDataset/hashCodes/'];
+        feature_dir = [pwd '/myDataset/features/'];
         
         colorData = 0;   
         
     case 2
         video_dir =[pwd '/myDataset2/videoFolder/']; 
         data_dir = [pwd '/myDataset2/hashCodes/'];
+        feature_dir = [pwd '/myDataset2/features/'];
        
         colorData = 0;    
 end
@@ -111,6 +113,7 @@ handles.filenames = filenames;
 handles.targets = targets;
 handles.video_dir = video_dir;
 handles.data_dir  = data_dir;
+handles.feature_dir = feature_dir;
 handles.maxFront = maxFront;
 
 
@@ -283,12 +286,7 @@ tic
     dist_2 = xor(data, q2new);
 
 
-    
-
-    
-   
-  
-      
+          
     N = length(handles.filenames);  % N = 2000
  tic
     
@@ -1699,16 +1697,12 @@ function pushbutton14_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 maxFront = handles.maxFront;
-
+features = handles.features;
 filenames = handles.filenames;
 pf_idx = handles.pf_idx;
 %MQUR_ALL  = handles.MQUR_ALL; 
 targets = handles.targets;
 X = handles.X;
-
-
-
-
 
    
     
@@ -1770,6 +1764,35 @@ for ll = 1:maxFront
     end
 end
 
+
+[M,C] = size(rtr_idx{1,1}(:,1));
+
+f = features(rtr_idx{1,1}(:,1),:); 
+
+f1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q1.txt');    
+f2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q2.txt');
+
+
+f1_new = repmat(f1,M,1);
+f2_new = repmat(f2,M,1);
+dist_f1 = pdist2(f1 , f , 'euclid' );
+dist_f2 = pdist2(f2 , f , 'euclid' );
+
+
+Y = zeros(2,M);
+Y(1,:) = dist_f1;
+Y(2,:) = dist_f2;
+Y = (Y)';
+Y2 = Y(:,1).^2 + Y(:,2).^2 ;
+
+Result = zeros(M,2);
+Result(:,1) = Y2(:);
+Result(:,2) = rtr_idx{1,1}(:,1);
+
+final_rtr = unique(Result,'rows');
+
+final_rtr_idx = final_rtr(:,2);
+
          cla(handles.axes13,'reset');
          cla(handles.axes14,'reset');
          cla(handles.axes15,'reset');
@@ -1784,8 +1807,8 @@ end
         
          
        %axes(handles.axes13);
-       fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(1,1)}];
-       set(handles.edit19,'string',num2str( handles.filenames{rtr_idx{1,1}(1,1)}));
+       fname = [handles.video_dir handles.filenames{final_rtr_idx(1,1)}];
+       set(handles.edit19,'string',num2str( handles.filenames{final_rtr_idx(1,1)}));
        axis image;
        mov=VideoReader(fname);
        nFrames=mov.NumberOfFrames;
@@ -1796,8 +1819,8 @@ end
        end
       
         %axes(handles.axes14);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(2,1)}];
-        set(handles.edit20,'string',num2str( handles.filenames{rtr_idx{1,1}(2,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(2,1)}];
+        set(handles.edit20,'string',num2str( handles.filenames{final_rtr_idx(2,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1809,8 +1832,8 @@ end
         
         
        %axes(handles.axes15);
-       fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(3,1)}];
-       set(handles.edit21,'string',num2str( handles.filenames{rtr_idx{1,1}(3,1)}));
+       fname = [handles.video_dir handles.filenames{final_rtr_idx(3,1)}];
+       set(handles.edit21,'string',num2str( handles.filenames{final_rtr_idx(3,1)}));
        axis image;
        mov=VideoReader(fname);
        nFrames=mov.NumberOfFrames;
@@ -1821,8 +1844,8 @@ end
        end
       
         %axes(handles.axes16);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(4,1)}];
-        set(handles.edit22,'string',num2str( handles.filenames{rtr_idx{1,1}(4,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(4,1)}];
+        set(handles.edit22,'string',num2str( handles.filenames{final_rtr_idx(4,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1834,8 +1857,8 @@ end
         
         
          %axes(handles.axes17);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(5,1)}];
-        set(handles.edit23,'string',num2str( handles.filenames{rtr_idx{1,1}(5,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(5,1)}];
+        set(handles.edit23,'string',num2str( handles.filenames{final_rtr_idx(5,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1847,8 +1870,8 @@ end
 
         
           %axes(handles.axes18);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(6,1)}];
-        set(handles.edit24,'string',num2str( handles.filenames{rtr_idx{1,1}(6,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(6,1)}];
+        set(handles.edit24,'string',num2str( handles.filenames{final_rtr_idx(6,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1859,8 +1882,8 @@ end
         end
         
         %axes(handles.axes19);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(7,1)}];
-        set(handles.edit25,'string',num2str( handles.filenames{rtr_idx{1,1}(7,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(7,1)}];
+        set(handles.edit25,'string',num2str( handles.filenames{final_rtr_idx(7,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1871,8 +1894,8 @@ end
         end
         
         %axes(handles.axes20);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(8,1)}];
-        set(handles.edit26,'string',num2str( handles.filenames{rtr_idx{1,1}(8,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(8,1)}];
+        set(handles.edit26,'string',num2str( handles.filenames{final_rtr_idx(8,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1884,8 +1907,8 @@ end
        
         
           %axes(handles.axes21);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(9,1)}];
-        set(handles.edit27,'string',num2str( handles.filenames{rtr_idx{1,1}(9,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(9,1)}];
+        set(handles.edit27,'string',num2str( handles.filenames{final_rtr_idx(9,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1896,8 +1919,8 @@ end
         end
         
           %axes(handles.axes22);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(8,1)}];
-        set(handles.edit28,'string',num2str( handles.filenames{rtr_idx{1,1}(8,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(10,1)}];
+        set(handles.edit28,'string',num2str( handles.filenames{final_rtr_idx(10,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1926,6 +1949,7 @@ filenames = handles.filenames;
 targets   = handles.targets;
 video_dir = handles.video_dir;
 data_dir  = handles.data_dir;
+feature_dir = handles.feature_dir;
 
 % load([data_dir '/filenames']); % File names
 % load([data_dir '/targets']);   % Labels
@@ -1937,6 +1961,8 @@ switch hashCode_index
     case 1
         load([data_dir '/hashCodes_128']); 
         data = hashCodes_128;
+        load([feature_dir '/features_128']); 
+        features = features_128;
             mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
@@ -1954,6 +1980,7 @@ switch hashCode_index
             end
         
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_128.py');
+    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_128.py');
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
             
             
@@ -1962,6 +1989,8 @@ switch hashCode_index
     case 2
        load([data_dir '/hashCodes_256']); 
        data = hashCodes_256;
+       load([feature_dir '/features_256']); 
+       features = features_256;
        mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
@@ -1979,6 +2008,7 @@ switch hashCode_index
             end
         
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_256.py');
+    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_256.py')
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
     
     
@@ -1986,6 +2016,8 @@ switch hashCode_index
     case 3
         load([data_dir '/hashCodes_512']); 
         data = hashCodes_512;
+        load([feature_dir '/features_512']); 
+        features = features_512;
         mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
@@ -2003,12 +2035,15 @@ switch hashCode_index
             end
     
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_512.py');
+    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_512.py')
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
     
     
     case 4
         load([data_dir '/hashCodes_1024']); 
         data = hashCodes_1024;
+        load([feature_dir '/features_1024']); 
+        features = features_1024;
         mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
@@ -2026,6 +2061,7 @@ switch hashCode_index
             end
     
      system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_1024.py');
+     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_1024.py')
      system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
 end
 
@@ -2038,6 +2074,7 @@ end
 %handles.filenames = filenames;
 %handles.targets = targets;
 handles.data = data;
+handles.features = features;
 
 
 guidata(hObject, handles);
