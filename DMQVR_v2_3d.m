@@ -338,13 +338,7 @@ function FrontSelector_Callback(hObject, eventdata, handles)
 
 targets  = handles.targets;
 maxFront = handles.maxFront;
-
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
-    q3 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q3.txt');  
-    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt');
-    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
-    q3_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q3.txt');
+X = handles.data;  
     
 currentFront = ((round(1+(maxFront-1)*get(hObject,'Value'))));
 
@@ -354,13 +348,15 @@ set(handles.FrontNum,'String',num2str(currentFront));
 
 
 pf_idx = handles.pf_idx;
-X = handles.X;
 
-axes(handles.axes3);
-hold off; scatter3(handles.X(:,1),handles.X(:,2),handles.X(:,3),'.');
-view(3);
-rotate3d on;
-hold on;
+
+ axes(handles.axes3);
+ hold off; 
+ scatter3(X(:,1),X(:,2),X(:,3),'k.');
+ %plot3(X(:,1),X(:,2),X(:,3),'.');
+ view(3);
+ rotate3d on;
+ hold on; 
 
  
  [pf_idx] = pareto_fronts(X, maxFront);
@@ -372,9 +368,9 @@ hold on;
 
  
   l = currentFront; 
-   scatter3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3), 's'); 
-   view(3);
-   rotate3d on;
+  scatter3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3), 's'); 
+  view(3);
+  rotate3d on;
   %plot(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , 'b-*');
   xlabel('c1');
   ylabel('c2');
@@ -385,7 +381,12 @@ hold on;
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-     
+    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
+    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
+    q3 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q3.txt');  
+    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt');
+    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
+    q3_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q3.txt'); 
         
     b = or(q1_label , q2_label); % beta in the equation 7  
     b = or(b,q3_label);
@@ -658,10 +659,7 @@ hold on;
 
 
 
- [pf_idx] = pareto_fronts(X, maxFront);
- %for k=1:maxFront
- %       plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) ,pf_idx{k,1}(:,3), 'y-');
- %end
+ 
 
 
 l = currentFront;
@@ -1717,6 +1715,7 @@ pf_idx = handles.pf_idx;
 %MQUR_ALL  = handles.MQUR_ALL; 
 targets = handles.targets;
 X = handles.X;
+data = handles.data;
 
 
     
@@ -1725,7 +1724,7 @@ X = handles.X;
     
      
    
-    data = handles.data;
+   
     
     q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
     q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
@@ -1843,8 +1842,8 @@ final_rtr_idx = final_rtr(:,2);
         
          
        %axes(handles.axes13);
-       fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(1,1)}];
-       set(handles.edit19,'string',num2str( handles.filenames{rtr_idx{1,1}(1,1)}));
+       fname = [handles.video_dir handles.filenames{final_rtr_idx(1,1)}];
+       set(handles.edit19,'string',num2str( handles.filenames{final_rtr_idx(1,1)}));
        axis image;
        mov=VideoReader(fname);
        nFrames=mov.NumberOfFrames;
@@ -1855,8 +1854,8 @@ final_rtr_idx = final_rtr(:,2);
        end
       
         %axes(handles.axes14);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(2,1)}];
-        set(handles.edit20,'string',num2str( handles.filenames{rtr_idx{1,1}(2,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(2,1)}];
+        set(handles.edit20,'string',num2str( handles.filenames{final_rtr_idx(2,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1868,8 +1867,8 @@ final_rtr_idx = final_rtr(:,2);
         
         
        %axes(handles.axes15);
-       fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(3,1)}];
-       set(handles.edit21,'string',num2str( handles.filenames{rtr_idx{1,1}(3,1)}));
+       fname = [handles.video_dir handles.filenames{final_rtr_idx(3,1)}];
+       set(handles.edit21,'string',num2str( handles.filenames{final_rtr_idx(3,1)}));
        axis image;
        mov=VideoReader(fname);
        nFrames=mov.NumberOfFrames;
@@ -1880,8 +1879,8 @@ final_rtr_idx = final_rtr(:,2);
        end
       
         %axes(handles.axes16);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(4,1)}];
-        set(handles.edit22,'string',num2str( handles.filenames{rtr_idx{1,1}(4,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(4,1)}];
+        set(handles.edit22,'string',num2str( handles.filenames{final_rtr_idx(4,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1893,8 +1892,8 @@ final_rtr_idx = final_rtr(:,2);
         
         
          %axes(handles.axes17);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(5,1)}];
-        set(handles.edit23,'string',num2str( handles.filenames{rtr_idx{1,1}(5,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(5,1)}];
+        set(handles.edit23,'string',num2str( handles.filenames{final_rtr_idx(5,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1906,8 +1905,8 @@ final_rtr_idx = final_rtr(:,2);
 
         
           %axes(handles.axes18);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(6,1)}];
-        set(handles.edit24,'string',num2str( handles.filenames{rtr_idx{1,1}(6,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(6,1)}];
+        set(handles.edit24,'string',num2str( handles.filenames{final_rtr_idx(6,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1918,8 +1917,8 @@ final_rtr_idx = final_rtr(:,2);
         end
         
         %axes(handles.axes19);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(7,1)}];
-        set(handles.edit25,'string',num2str( handles.filenames{rtr_idx{1,1}(7,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(7,1)}];
+        set(handles.edit25,'string',num2str( handles.filenames{final_rtr_idx(7,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1930,8 +1929,8 @@ final_rtr_idx = final_rtr(:,2);
         end
         
         %axes(handles.axes20);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(8,1)}];
-        set(handles.edit26,'string',num2str( handles.filenames{rtr_idx{1,1}(8,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(8,1)}];
+        set(handles.edit26,'string',num2str( handles.filenames{final_rtr_idx(8,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1943,8 +1942,8 @@ final_rtr_idx = final_rtr(:,2);
        
         
           %axes(handles.axes21);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(9,1)}];
-        set(handles.edit27,'string',num2str( handles.filenames{rtr_idx{1,1}(9,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(9,1)}];
+        set(handles.edit27,'string',num2str( handles.filenames{final_rtr_idx(9,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1955,8 +1954,8 @@ final_rtr_idx = final_rtr(:,2);
         end
         
           %axes(handles.axes22);
-        fname = [handles.video_dir handles.filenames{rtr_idx{1,1}(8,1)}];
-        set(handles.edit28,'string',num2str( handles.filenames{rtr_idx{1,1}(8,1)}));
+        fname = [handles.video_dir handles.filenames{final_rtr_idx(10,1)}];
+        set(handles.edit28,'string',num2str( handles.filenames{final_rtr_idx(10,1)}));
         axis image;
         mov=VideoReader(fname);
         nFrames=mov.NumberOfFrames;
@@ -1967,6 +1966,8 @@ final_rtr_idx = final_rtr(:,2);
         end
         
  guidata(hObject, handles);
+       
+
        
 
 

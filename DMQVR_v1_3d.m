@@ -1,35 +1,35 @@
-function varargout = DMQVR_v2(varargin)
-% DMQVR_V2 MATLAB code for DMQVR_v2.fig
-%      DMQVR_V2, by itself, creates a new DMQVR_V2 or raises the existing
+function varargout = DMQVR_v1_3d(varargin)
+% DMQVR_v1_3d MATLAB code for DMQVR_v1_3d.fig
+%      DMQVR_v1_3d, by itself, creates a new DMQVR_v1_3d or raises the existing
 %      singleton*.
 %
-%      H = DMQVR_V2 returns the handle to a new DMQVR_V2 or the handle to
+%      H = DMQVR_v1_3d returns the handle to a new DMQVR_v1_3d or the handle to
 %      the existing singleton*.
 %
-%      DMQVR_V2('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in DMQVR_V2.M with the given input arguments.
+%      DMQVR_v1_3d('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in DMQVR_v1_3d.M with the given input arguments.
 %
-%      DMQVR_V2('Property','Value',...) creates a new DMQVR_V2 or raises the
+%      DMQVR_v1_3d('Property','Value',...) creates a new DMQVR_v1_3d or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before DMQVR_v2_OpeningFcn gets called.  An
+%      applied to the GUI before DMQVR_v1_3d_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to DMQVR_v2_OpeningFcn via varargin.
+%      stop.  All inputs are passed to DMQVR_v1_3d_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help DMQVR_v2
+% Edit the above text to modify the response to help DMQVR_v1_3d
 
-% Last Modified by GUIDE v2.5 16-May-2019 00:33:07
+% Last Modified by GUIDE v2.5 22-May-2019 02:48:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @DMQVR_v2_OpeningFcn, ...
-                   'gui_OutputFcn',  @DMQVR_v2_OutputFcn, ...
+                   'gui_OpeningFcn', @DMQVR_v1_3d_OpeningFcn, ...
+                   'gui_OutputFcn',  @DMQVR_v1_3d_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,26 +44,26 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before DMQVR_v2 is made visible.
-function DMQVR_v2_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before DMQVR_v1_3d is made visible.
+function DMQVR_v1_3d_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to DMQVR_v2 (see VARARGIN)
+% varargin   command line arguments to DMQVR_v1_3d (see VARARGIN)
 
-% Choose default command line output for DMQVR_v2
+% Choose default command line output for DMQVR_v1_3d
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes DMQVR_v2 wait for user response (see UIRESUME)
+% UIWAIT makes DMQVR_v1_3d wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = DMQVR_v2_OutputFcn(hObject, eventdata, handles) 
+function varargout = DMQVR_v1_3d_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -81,7 +81,7 @@ function Dataset_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns Dataset contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from Dataset
-maxFront = 5;
+maxFront = 3;
 
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
@@ -89,14 +89,12 @@ switch dataset_index
         video_dir =[pwd '/myDataset/videoFolder/']; 
         data_dir = [pwd '/myDataset/hashCodes/'];
         feature_dir = [pwd '/myDataset/features/'];
-        
         colorData = 0;   
         
     case 2
         video_dir =[pwd '/myDataset2/videoFolder/']; 
         data_dir = [pwd '/myDataset2/hashCodes/'];
         feature_dir = [pwd '/myDataset2/features/'];
-       
         colorData = 0;    
 end
 % if(colorData == 1)
@@ -117,7 +115,9 @@ handles.feature_dir = feature_dir;
 handles.maxFront = maxFront;
 
 
-
+set(handles.QueryName1,'String', filenames);
+set(handles.QueryName2,'String', filenames);
+set(handles.QueryName3,'String', filenames);
 
 
 guidata(hObject, handles);
@@ -226,6 +226,7 @@ function QueryName2_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns QueryName2 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from QueryName2
+
 imindex = get(hObject,'Value');
 video_dir = handles.video_dir;
 fname = [video_dir handles.filenames{imindex}];
@@ -241,6 +242,7 @@ end
 
 handles.q2Idx = imindex;
 guidata(hObject, handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -262,48 +264,40 @@ function pushbutton2_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
     
-  
     maxFront = handles.maxFront;
     targets = handles.targets;
-    data = handles.data;
-    
-   
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');    
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
-       
-        
-     %q1 = q1';
-     %q2 = q2';
 
-     
-    N = length(handles.filenames);  % 
-     
-           
-tic
+    queryIndex1 = handles.q1Idx;
+    queryIndex2 = handles.q2Idx;
+    queryIndex3 = handles.q3Idx;
+    
+    data = handles.data;
+    q1 = data(queryIndex1,:);
+    q2 = data(queryIndex2,:);
+    q3 = data(queryIndex3,:);
+      
+    N = length(handles.filenames); 
+ tic
     q1new = repmat(q1,N,1);
     q2new = repmat(q2,N,1);
+    q3new = repmat(q3,N,1);
     dist_1 = xor(data, q1new);
     dist_2 = xor(data, q2new);
-
-
-          
-    N = length(handles.filenames);  % N = 2000
-
-    
-    dist_1 = xor(data, q1new);
-    dist_2 = xor(data, q2new);
+    dist_3 = xor(data, q3new);
     hamming_dist1 = sum(dist_1,2);
     hamming_dist2 = sum(dist_2,2);
+    hamming_dist3 = sum(dist_3,2);
     n_hamming_dist1 = mat2gray(hamming_dist1);
     n_hamming_dist2 = mat2gray(hamming_dist2);
+    n_hamming_dist3 = mat2gray(hamming_dist3);
            
 t = toc;
 set(handles.tictoc,'String',num2str(t))
 
-    X = zeros(2,N);
+    X = zeros(3,N);
     X(1,:) = n_hamming_dist1;
     X(2,:) = n_hamming_dist2;
-    
+    X(3,:) = n_hamming_dist3;
     X = (X)';
     
     [K,L] = size(unique(X,'rows'));  %% Number of unique pareto points 
@@ -311,15 +305,22 @@ set(handles.tictoc,'String',num2str(t))
 
     
     
-    axes(handles.axes3);
-    hold off; plot(X(:,1),X(:,2),'.');
-    hold on; 
+   axes(handles.axes3);
+   hold off; 
+   scatter3(X(:,1),X(:,2),X(:,3),'k.');
+   %plot3(X(:,1),X(:,2),X(:,3),'.');
+   view(3);
+   rotate3d on;
+   hold on; 
     
+   %scatter3(X(:,1),X(:,2),X(:,3),'k.');
      
+    
    
     [pf_idx] = pareto_fronts(X, maxFront);
-    for k=1:maxFront
-        plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
+    for k=1:1
+        scatter3(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , pf_idx{k,1}(:,3)); 
+        %plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
     end
     xlabel('c1');
     ylabel('c2'); 
@@ -327,10 +328,8 @@ set(handles.tictoc,'String',num2str(t))
    
     handles.pf_idx = pf_idx;
     handles.X = X;
-       
-    
+          
     guidata(hObject, handles);
-    
 
 
 % --- Executes on slider movement.
@@ -342,39 +341,70 @@ function FrontSelector_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
 
+targets  = handles.targets;
 maxFront = handles.maxFront;
-filenames = handles.filenames;
-targets = handles.targets;
+data = handles.data;
 X = handles.X;
 pf_idx = handles.pf_idx;
-
-
+    
 currentFront = ((round(1+(maxFront-1)*get(hObject,'Value'))));
 
+%set(handles.FrontIdx,'String',['Pareto depth:' num2str(currentFront)] );
 set(handles.FrontNum,'String',num2str(currentFront));
-    
+
+
+ axes(handles.axes3);
+ hold off; 
+ scatter3(X(:,1),X(:,2),X(:,3),'k.');
+ %plot3(X(:,1),X(:,2),X(:,3),'.');
+ view(3);
+ rotate3d on;
+ hold on; 
+
+ 
+
+ 
+ %for k=1:maxFront
+ %       scatter3(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , pf_idx{k,1}(:,3)); 
+ %       %plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
+ %end
+
+ 
+  l = currentFront; 
+  scatter3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3), 's'); 
+  view(3);
+  rotate3d on;
+  %plot(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , 'b-*');
+  xlabel('c1');
+  ylabel('c2');
+
+ handles.currentFront = currentFront;
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    queryIndex1 = handles.q1Idx;
+    queryIndex2 = handles.q2Idx;
+    queryIndex3 = handles.q3Idx;
     
-    data = handles.data;
+   
+    q1 = data(queryIndex1,:);
+    q2 = data(queryIndex2,:);
+    q3 = data(queryIndex3,:);
+
+
+    q1_label = targets(queryIndex1,: ); % Label vector of Query 1
+    q2_label = targets(queryIndex2,: ); % Label vector of Query 2
+    q3_label = targets(queryIndex3,: );
     
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
-       
-    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt');
-    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
-       
-    
-        
     b = or(q1_label , q2_label); % beta in the equation 7
+    b = or(b,q3_label);
     absolute_b = nnz(b);         % Number of non-zero elements in the beta, nnz is a Matlab Func.
     
     
       for j  =1:maxFront
             R=0;
             C=0;
-            Labels = targets(pf_idx{j,1}(:,3),:);     
+            Labels = targets(pf_idx{j,1}(:,4),:);     
             [R , C] = size(Labels); 
             
             
@@ -505,27 +535,11 @@ set(handles.FrontNum,'String',num2str(currentFront));
       ylabel('nDCG');
       hold on;
       
-      handles.currentFront = currentFront;
-      
-      handles.MQUR_ALL = MQUR_ALL;
-      
+            
+           
       
       
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%SHOW S TOP IMAGES IN EACH FRONT WHERE THEIR MQUR SCORE IS 1%%%%%%%%%%%%%
-  
- 
-axes(handles.axes3);
-hold off; plot(handles.X(:,1),handles.X(:,2),'.');
-hold on;
-
-
- 
- for k=1:maxFront
-        plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
- end
-
- 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %{
  
 for ll = 1:maxFront
@@ -641,23 +655,25 @@ R1 = min(frontSize,currentImage+1);
 
 
 axes(handles.axes3);
-hold off; plot(handles.X(:,1),handles.X(:,2),'.');
+hold off; plot3(handles.X(:,1),handles.X(:,2),handles.X(:,3), 'k.');
+view(3)
+rotate3d on;
 hold on;
 
 
 
- [pf_idx] = pareto_fronts(X, maxFront);
- for k=1:maxFront
-        plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
- end
+ 
 
 
 l = currentFront;
 
-plot(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , 'b-*');
+plot3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3) , 's');
+view(3);
+rotate3d on;
 
-xlabel('Dissimilarity to Query1');
-ylabel('Dissimilarity to Query2');
+%xlabel('Dissimilarity to Query1');
+%ylabel('Dissimilarity to Query2');
+
 
 currentfrontLoc = (pf_idx{l,1}(:,1:2))';
 
@@ -667,7 +683,7 @@ plot(currentfrontLoc(1,L1),currentfrontLoc(2,L1),'o','Linewidth',3,'MarkerSize',
 plot(currentfrontLoc(1,R1),currentfrontLoc(2,R1),'o','Linewidth',3,'MarkerSize',5);
 
     
-currentfrontId = pf_idx{l,:}(:,3);
+currentfrontId = pf_idx{l,:}(:,4);
 currentfrontId =(currentfrontId)';
 
 
@@ -1031,8 +1047,175 @@ set(handles.Status,'String','Done');
 guidata(hObject, handles);
 
 
+% --- Executes on button press in pushbutton6.
+function pushbutton6_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+dataset_index = get(handles.Dataset, 'Value');
+switch dataset_index 
+    case 1
+        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
+        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
+        colorData = 0;   
+        
+    case 2
+        image_dir =[pwd '/newdbDataset/scene_categories/']; 
+        data_dir = [pwd '/newdbDataset/preprocessed_features'];
+        colorData = 0;    
+end
+% if(colorData == 1)
+% load([data_dir '/colorLabel']);
+% handles.colorLabel = colorLabel;
+% end
+
+set(handles.Status,'String','Loading...');pause(0.3);
+load([data_dir '/filenames']);
+load([data_dir '/targets']);
+load([data_dir '/pyramid_all_64']);set(handles.Status,'String','Loading 50%...');pause(0.3);
+
+handles.filenames = filenames;
+handles.data = pyramid_all_64;
+handles.targets = targets;
+
+set(handles.Status,'String','Done');
+set(handles.QueryName1,'String', filenames);
+set(handles.QueryName2,'String', filenames);
+
+handles.image_dir = image_dir;
+set(handles.Status,'String','Loading');
+set(handles.Status,'String','Done');
+
+guidata(hObject, handles);
 
 
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+dataset_index = get(handles.Dataset, 'Value');
+switch dataset_index 
+    case 1
+        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
+        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
+        colorData = 0;   
+        
+    case 2
+        image_dir =[pwd '/newdbDataset/scene_categories/']; 
+        data_dir = [pwd '/newdbDataset/preprocessed_features'];
+        colorData = 0;    
+end
+% if(colorData == 1)
+% load([data_dir '/colorLabel']);
+% handles.colorLabel = colorLabel;
+% end
+
+set(handles.Status,'String','Loading...');pause(0.3);
+load([data_dir '/filenames']);
+load([data_dir '/targets']);
+load([data_dir '/pyramid_all_96']);set(handles.Status,'String','Loading 50%...');pause(0.3);
+
+handles.filenames = filenames;
+handles.data = pyramid_all_96;
+handles.targets = targets;
+
+set(handles.Status,'String','Done');
+set(handles.QueryName1,'String', filenames);
+set(handles.QueryName2,'String', filenames);
+
+handles.image_dir = image_dir;
+set(handles.Status,'String','Loading');
+set(handles.Status,'String','Done');
+
+guidata(hObject, handles);
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+dataset_index = get(handles.Dataset, 'Value');
+switch dataset_index 
+    case 1
+        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
+        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
+        colorData = 0;   
+        
+    case 2
+        image_dir =[pwd '/newdbDataset/scene_categories/']; 
+        data_dir = [pwd '/newdbDataset/preprocessed_features'];
+        colorData = 0;    
+end
+% if(colorData == 1)
+% load([data_dir '/colorLabel']);
+% handles.colorLabel = colorLabel;
+% end
+
+set(handles.Status,'String','Loading...');pause(0.3);
+load([data_dir '/filenames']);
+load([data_dir '/targets']);
+load([data_dir '/pyramid_all_256']);set(handles.Status,'String','Loading 50%...');pause(0.3);
+
+handles.filenames = filenames;
+handles.data = pyramid_all_256;
+handles.targets = targets;
+
+set(handles.Status,'String','Done');
+set(handles.QueryName1,'String', filenames);
+set(handles.QueryName2,'String', filenames);
+
+handles.image_dir = image_dir;
+set(handles.Status,'String','Loading');
+set(handles.Status,'String','Done');
+
+guidata(hObject, handles);
+
+
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+dataset_index = get(handles.Dataset, 'Value');
+switch dataset_index 
+    case 1
+        image_dir =[pwd '/lamdaDataset/scene_categories/']; 
+        data_dir = [pwd '/lamdaDataset/preprocessed_features'];
+        colorData = 0;   
+        
+    case 2
+        image_dir =[pwd '/newdbDataset/scene_categories/']; 
+        data_dir = [pwd '/newdbDataset/preprocessed_features'];
+        colorData = 0;    
+end
+% if(colorData == 1)
+% load([data_dir '/colorLabel']);
+% handles.colorLabel = colorLabel;
+% end
+
+set(handles.Status,'String','Loading...');pause(0.3);
+load([data_dir '/filenames']);
+load([data_dir '/targets']);
+load([data_dir '/pyramid_all_Caffe_ssdh48_v3']);set(handles.Status,'String','Loading 50%...');pause(0.3);
+
+handles.filenames = filenames;
+handles.data = pyramid_all_Caffe_ssdh48_v3;
+handles.targets = targets;
+
+set(handles.Status,'String','Done');
+set(handles.QueryName1,'String', filenames);
+set(handles.QueryName2,'String', filenames);
+
+handles.image_dir = image_dir;
+set(handles.Status,'String','Loading');
+set(handles.Status,'String','Done');
+
+guidata(hObject, handles);
 
 
 
@@ -1104,7 +1287,67 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
+% --- Executes on button press in pushbutton11.
+function pushbutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+    
+    maxFront = handles.maxFront;
+    
+    queryIndex1 = handles.q1Idx;
+    queryIndex2 = handles.q2Idx;
+    data = handles.data;
+    q1 = data(queryIndex1,:);
+    q2 = data(queryIndex2,:);
+    
+    
+    %     Ranking with EMR
+    N = length(handles.filenames);
+tic    
+    [H A landmarks Z] = EMRcomputeModel(handles.data);
+    y1 = zeros(N,1);
+    y1(queryIndex1) = 1;
+    y2 = zeros(N,1);
+    y2(queryIndex2) = 1;
+    
+    simEMR1 = EMRscore(H ,A, y1);
+    simEMR2 = EMRscore(H ,A, y2);
+    dist1 = 1-simEMR1;
+    dist2 = 1-simEMR2;
+       
+t = toc;
+set(handles.tictoc2,'String',num2str(t))
 
+    X = zeros(2,N);
+    X(1,:) = dist1;
+    X(2,:) = dist2;
+    
+    X = (X)';
+    
+    [K,L] = size(unique(X,'rows'));  %% Number of unique pareto points 
+    set(handles.num_pp_v2,'String',num2str(K))
+    
+    axes(handles.axes3);
+    hold off; plot(X(:,1),X(:,2),'.');
+    hold on; 
+    
+     
+    
+ 
+    [pf_idx] = pareto_fronts(X, maxFront);
+    for k=1:maxFront
+        plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
+    end
+    xlabel('c1');
+    ylabel('c2'); 
+
+   
+    handles.pf_idx = pf_idx;
+    handles.X = X;
+       
+    
+    guidata(hObject, handles);
 
 
 function tictoc2_Callback(hObject, eventdata, handles)
@@ -1683,11 +1926,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-
-
-
-    
+   
 
 
 % --- Executes on button press in pushbutton14.
@@ -1703,28 +1942,33 @@ pf_idx = handles.pf_idx;
 %MQUR_ALL  = handles.MQUR_ALL; 
 targets = handles.targets;
 X = handles.X;
-
+data = handles.data;
    
     
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    queryIndex1 = handles.q1Idx;
+    queryIndex2 = handles.q2Idx;
+    queryIndex3 = handles.q3Idx;
     
-    data = handles.data;
-    q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
-    q2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q2.txt');
-       
-    q1_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt');
-    q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
+    q1 = data(queryIndex1,:);
+    q2 = data(queryIndex2,:);
+    q3 = data(queryIndex3,:);
+
+    q1_label = targets(queryIndex1,: ); % Label vector of Query 1
+    q2_label = targets(queryIndex2,: ); % Label vector of Query 2
+    q3_label = targets(queryIndex3,: ); % Label vector of Query 2
         
     b = or(q1_label , q2_label); % beta in the equation 7
+    b = or(b,q3_label);
     absolute_b = nnz(b);         % Number of non-zero elements in the beta, nnz is a Matlab Func.
     
     
       for j  =1:maxFront
             R=0;
             C=0;
-            Labels = targets(pf_idx{j,1}(:,3),:);     
+            Labels = targets(pf_idx{j,1}(:,4),:);     
             [R , C] = size(Labels);                
                
                      
@@ -1738,9 +1982,11 @@ X = handles.X;
 
 %%%%%%%%%%%%%%%%%%%%%%%5
 axes(handles.axes3);
-hold off; plot(handles.X(:,1),handles.X(:,2),'k.');
+hold off; 
+scatter3(handles.X(:,1), handles.X(:,2), handles.X(:,3), 'k.');
+view(3);
+rotate3d on;
 hold on;
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
 
@@ -1755,35 +2001,43 @@ for ll = 1:maxFront
     for ff = 1:k(ll)
         if  MQUR_ALL(ll,ff) == 1    
             
-            rtr_idx{1,1}(end+1,:) = pf_idx{ll,1}( ff , 3);
+            rtr_idx{1,1}(end+1,:) = pf_idx{ll,1}( ff , 4);
             %rtr_idx{ll,:}(end+1,:) = pf_idx{ll,1}( ff , 3);
             rtr2_idx{ll,:}(end+1,:) = pf_idx{ll,1}( ff , :);
-            plot(rtr2_idx{ll,1}(:,1) , rtr2_idx{ll,1}(:,2), '*' )
+            scatter3(rtr2_idx{ll,1}(:,1) , rtr2_idx{ll,1}(:,2),  rtr2_idx{ll,1}(:,3),  's' )
+            view(3);
+            rotate3d on;
         end
          
     end
 end
 
-
 [M,C] = size(rtr_idx{1,1}(:,1));
 
 f = features(rtr_idx{1,1}(:,1),:); 
 
-f1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q1.txt');    
-f2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q2.txt');
-
+f1 = features(queryIndex1,:);    
+f2 = features(queryIndex2,:);  
+f3 = features(queryIndex3,:); 
 
 f1_new = repmat(f1,M,1);
 f2_new = repmat(f2,M,1);
+f3_new = repmat(f3,M,1);
+
+
 dist_f1 = pdist2(f1 , f , 'euclid' );
 dist_f2 = pdist2(f2 , f , 'euclid' );
+dist_f3 = pdist2(f3 , f , 'euclid' );
+
 
 
 Y = zeros(2,M);
 Y(1,:) = dist_f1;
 Y(2,:) = dist_f2;
+Y(3,:) = dist_f3;
+
 Y = (Y)';
-Y2 = Y(:,1).^2 + Y(:,2).^2 ;
+Y2 = Y(:,1).^2 + Y(:,2).^2 +  Y(:,3).^2;
 
 Result = zeros(M,2);
 Result(:,1) = Y2(:);
@@ -1792,6 +2046,8 @@ Result(:,2) = rtr_idx{1,1}(:,1);
 final_rtr = unique(Result,'rows');
 
 final_rtr_idx = final_rtr(:,2);
+
+
 
          cla(handles.axes13,'reset');
          cla(handles.axes14,'reset');
@@ -1934,6 +2190,7 @@ final_rtr_idx = final_rtr(:,2);
        
 
 
+
 % --- Executes on selection change in hashCodeSelection_f.
 function hashCodeSelection_f_Callback(hObject, eventdata, handles)
 % hObject    handle to hashCodeSelection_f (see GCBO)
@@ -1964,113 +2221,24 @@ switch hashCode_index
         load([feature_dir '/features_128']); 
         features = features_128;
         data = features_128 > 0.5;
-            
-            mov=VideoReader('Python/q1.mp4');
-            nFrames=mov.NumberOfFrames;
-            for i=1:nFrames
-                videoFrame=read(mov,i);
-                axes(handles.axes1);
-                imshow(videoFrame);  axis image;
-            end
-            
-            mov_2=VideoReader('Python/q2.mp4');
-            nFrames_2=mov_2.NumberOfFrames;
-            for i=1:nFrames_2
-                videoFrame_2=read(mov_2,i);
-                axes(handles.axes2);
-                imshow(videoFrame_2);  axis image;
-            end
-        
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_128.py');
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_128.py');
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
-            
-            
-            
-            
     case 2
        %load([data_dir '/hashCodes_256']); 
        %data = hashCodes_256;
        load([feature_dir '/features_256']); 
        features = features_256;
        data = features_256 > 0.5;
-       
-            mov=VideoReader('Python/q1.mp4');
-            nFrames=mov.NumberOfFrames;
-            for i=1:nFrames
-                videoFrame=read(mov,i);
-                axes(handles.axes1);
-                imshow(videoFrame);  axis image;
-            end
-            
-            mov_2=VideoReader('Python/q2.mp4');
-            nFrames_2=mov_2.NumberOfFrames;
-            for i=1:nFrames_2
-                videoFrame_2=read(mov_2,i);
-                axes(handles.axes2);
-                imshow(videoFrame_2);  axis image;
-            end
-        
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_256.py');
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_256.py')
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
-    
-    
-            
     case 3
         %load([data_dir '/hashCodes_512']); 
         %data = hashCodes_512;
         load([feature_dir '/features_512']); 
         features = features_512;
         data = features_512 > 0.5;
-        
-            mov=VideoReader('Python/q1.mp4');
-            nFrames=mov.NumberOfFrames;
-            for i=1:nFrames
-                videoFrame=read(mov,i);
-                axes(handles.axes1);
-                imshow(videoFrame);  axis image;
-            end
-            
-            mov_2=VideoReader('Python/q2.mp4');
-            nFrames_2=mov_2.NumberOfFrames;
-            for i=1:nFrames_2
-                videoFrame_2=read(mov_2,i);
-                axes(handles.axes2);
-                imshow(videoFrame_2);  axis image;
-            end
-    
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_512.py');
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_512.py')
-    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
-    
-    
     case 4
         %load([data_dir '/hashCodes_1024']); 
         %data = hashCodes_1024;
         load([feature_dir '/features_1024']); 
         features = features_1024;
         data = features_1024 > 0.5;
-         
-            mov=VideoReader('Python/q1.mp4');
-            nFrames=mov.NumberOfFrames;
-            for i=1:nFrames
-                videoFrame=read(mov,i);
-                axes(handles.axes1);
-                imshow(videoFrame);  axis image;
-            end
-            
-            mov_2=VideoReader('Python/q2.mp4');
-            nFrames_2=mov_2.NumberOfFrames;
-            for i=1:nFrames_2
-                videoFrame_2=read(mov_2,i);
-                axes(handles.axes2);
-                imshow(videoFrame_2);  axis image;
-            end
-    
-     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_1024.py');
-     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_1024.py')
-     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
 end
 
 
@@ -2083,7 +2251,6 @@ end
 %handles.targets = targets;
 handles.data = data;
 handles.features = features;
-
 
 guidata(hObject, handles);
 
@@ -2132,11 +2299,40 @@ function pushbutton14_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 
-
-% --- Executes on button press in pushbutton17.
-function pushbutton17_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton17 (see GCBO)
+% --- Executes on selection change in QueryName3.
+function QueryName3_Callback(hObject, eventdata, handles)
+% hObject    handle to QueryName3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
- system('sh     /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/extractFrames.sh');
- guidata(hObject, handles);
+
+% Hints: contents = cellstr(get(hObject,'String')) returns QueryName3 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from QueryName3
+
+imindex = get(hObject,'Value');
+video_dir = handles.video_dir;
+fname = [video_dir handles.filenames{imindex}];
+
+mov=VideoReader(fname);
+nFrames=mov.NumberOfFrames;
+for i=1:nFrames
+  videoFrame=read(mov,i);
+  axes(handles.axes37);
+  imshow(videoFrame);  axis image;
+end
+
+
+handles.q3Idx = imindex;
+guidata(hObject, handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function QueryName3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to QueryName3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
