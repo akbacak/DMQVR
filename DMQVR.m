@@ -88,13 +88,13 @@ switch dataset_index
     case 1
         video_dir =[pwd '/myDataset/videoFolder/']; 
         data_dir = [pwd '/myDataset/hashCodes/'];
-        
+        feature_dir = [pwd '/myDataset/features/'];
         colorData = 0;   
         
     case 2
         video_dir =[pwd '/myDataset2/videoFolder/']; 
         data_dir = [pwd '/myDataset2/hashCodes/'];
-       
+        feature_dir = [pwd '/myDataset2/features/'];
         colorData = 0;    
 end
 % if(colorData == 1)
@@ -111,6 +111,7 @@ handles.filenames = filenames;
 handles.targets = targets;
 handles.video_dir = video_dir;
 handles.data_dir  = data_dir;
+handles.feature_dir = feature_dir;
 handles.maxFront = maxFront;
 
 
@@ -270,7 +271,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     q1 = data(queryIndex1,:);
     q2 = data(queryIndex2,:);
       
-    N = length(handles.filenames);  % N = 2000
+    N = length(handles.filenames); 
  tic
     q1new = repmat(q1,N,1);
     q2new = repmat(q2,N,1);
@@ -1906,7 +1907,7 @@ function pushbutton14_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 maxFront = handles.maxFront;
-
+features = handles.features;
 filenames = handles.filenames;
 pf_idx = handles.pf_idx;
 %MQUR_ALL  = handles.MQUR_ALL; 
@@ -1977,6 +1978,33 @@ for ll = 1:maxFront
          
     end
 end
+
+[M,C] = size(rtr_idx{1,1}(:,1));
+
+f = features(rtr_idx{1,1}(:,1),:); 
+
+f1 = features(queryIndex1,:);    
+f2 = features(queryIndex2,:);   
+
+f1_new = repmat(f1,M,1);
+f2_new = repmat(f2,M,1);
+dist_f1 = pdist2(f1 , f , 'euclid' );
+dist_f2 = pdist2(f2 , f , 'euclid' );
+
+
+Y = zeros(2,M);
+Y(1,:) = dist_f1;
+Y(2,:) = dist_f2;
+Y = (Y)';
+Y2 = Y(:,1).^2 + Y(:,2).^2 ;
+
+Result = zeros(M,2);
+Result(:,1) = Y2(:);
+Result(:,2) = rtr_idx{1,1}(:,1);
+
+final_rtr = unique(Result,'rows');
+
+final_rtr_idx = final_rtr(:,2);
 
          cla(handles.axes13,'reset');
          cla(handles.axes14,'reset');
@@ -2134,6 +2162,7 @@ filenames = handles.filenames;
 targets   = handles.targets;
 video_dir = handles.video_dir;
 data_dir  = handles.data_dir;
+feature_dir = handles.feature_dir;
 
 % load([data_dir '/filenames']); % File names
 % load([data_dir '/targets']);   % Labels
@@ -2143,19 +2172,33 @@ hashCode_index = get(handles.hashCodeSelection_f, 'Value');
 switch hashCode_index
            
     case 1
-        load([data_dir '/hashCodes_128']); 
-        data = hashCodes_128;
+        %load([data_dir '/hashCodes_128']); 
+        %data = hashCodes_128;
+        load([feature_dir '/features_128']); 
+        features = features_128;
+        data = features_128 > 0.5;
+        
     case 2
-       load([data_dir '/hashCodes_256']); 
-       data = hashCodes_256;
+        %load([data_dir '/hashCodes_256']); 
+        %data = hashCodes_256;
+        load([feature_dir '/features_256']); 
+        features = features_256;
+        data = features_256 > 0.5;
+        
     case 3
-        load([data_dir '/hashCodes_512']); 
-        data = hashCodes_512;
+        %load([data_dir '/hashCodes_512']); 
+        %data = hashCodes_512;
+        load([feature_dir '/features_512']); 
+        features = features_512;
+        data = features_512 > 0.5;
+        
     case 4
-        load([data_dir '/hashCodes_1024']); 
-        data = hashCodes_1024;
+        %load([data_dir '/hashCodes_1024']); 
+        %data = hashCodes_1024;
+        load([feature_dir '/features_1024']); 
+        features = features_1024;
+        data = features_1024 > 0.5;
 end
-
 
 
 
@@ -2165,6 +2208,7 @@ end
 %handles.filenames = filenames;
 %handles.targets = targets;
 handles.data = data;
+handles.features = features;
 
 
 guidata(hObject, handles);
