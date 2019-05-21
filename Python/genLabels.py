@@ -38,9 +38,20 @@ binary_codes_2 = model.predict(X2, batch_size=64, verbose=0, steps=None)
 binary_codes_2 = binary_codes_2 > 0.5
 binary_codes_2 = binary_codes_2.astype(int)
 
+X3 = []
+X3 = np.load(open("Python/Outputs/video_3.npy"))
+X3.shape
+print(X3.shape[:])
+X3 = X3.reshape(1, X3.shape[0], X3.shape[1] * X3.shape[2] * X3.shape[3] )
+binary_codes_3 = model.predict(X3, batch_size=64, verbose=0, steps=None)
+binary_codes_3 = binary_codes_3 > 0.5
+binary_codes_3 = binary_codes_3.astype(int)
+
 
 
 np.savetxt('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q1.txt', binary_codes_1,  fmt='%d',  delimiter=',')
 np.savetxt('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt', binary_codes_2,  fmt='%d',  delimiter=',')
+np.savetxt('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q3.txt', binary_codes_3,  fmt='%d',  delimiter=',')
+
 
 
