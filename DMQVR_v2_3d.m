@@ -81,18 +81,20 @@ function Dataset_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns Dataset contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from Dataset
-maxFront = 3;
+maxFront = 10;
 
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
     case 1
         video_dir =[pwd '/myDataset/videoFolder/']; 
+        feature_dir = [pwd '/myDataset/features/'];
         data_dir = [pwd '/myDataset/hashCodes/'];
         
         colorData = 0;   
         
     case 2
         video_dir =[pwd '/myDataset2/videoFolder/']; 
+        feature_dir = [pwd '/myDataset2/features/'];
         data_dir = [pwd '/myDataset2/hashCodes/'];
        
         colorData = 0;    
@@ -111,6 +113,7 @@ handles.filenames = filenames;
 handles.targets = targets;
 handles.video_dir = video_dir;
 handles.data_dir  = data_dir;
+handles.feature_dir = feature_dir;
 handles.maxFront = maxFront;
 
 
@@ -354,7 +357,7 @@ pf_idx = handles.pf_idx;
 X = handles.X;
 
 axes(handles.axes3);
-hold off; scatter3(handles.X(:,1),handles.X(:,2),handles.X(:,3),'k.');
+hold off; scatter3(handles.X(:,1),handles.X(:,2),handles.X(:,3),'.');
 view(3);
 rotate3d on;
 hold on;
@@ -369,13 +372,12 @@ hold on;
 
  
   l = currentFront; 
-   scatter3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3), 'o', 'filled'); 
+   scatter3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3), 's'); 
    view(3);
    rotate3d on;
   %plot(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , 'b-*');
   xlabel('c1');
   ylabel('c2');
- 
 
  handles.currentFront = currentFront;
     
@@ -649,25 +651,29 @@ R1 = min(frontSize,currentImage+1);
 
 
 axes(handles.axes3);
-hold off; plot(handles.X(:,1),handles.X(:,2),'.');
+hold off; plot3(handles.X(:,1),handles.X(:,2),handles.X(:,3), 'k.');
+view(3)
+rotate3d on;
 hold on;
 
 
 
  [pf_idx] = pareto_fronts(X, maxFront);
- for k=1:maxFront
-        plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , 'y-');
- end
+ %for k=1:maxFront
+ %       plot(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) ,pf_idx{k,1}(:,3), 'y-');
+ %end
 
 
 l = currentFront;
 
-plot(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , 'b-*');
+plot3(pf_idx{l,1}(:,1), pf_idx{l,1}(:,2) , pf_idx{l,1}(:,3) , 's');
+view(3);
+rotate3d on;
 
-xlabel('Dissimilarity to Query1');
-ylabel('Dissimilarity to Query2');
+%xlabel('Dissimilarity to Query1');
+%ylabel('Dissimilarity to Query2');
 
-currentfrontLoc = (pf_idx{l,1}(:,1:2))';
+currentfrontLoc = (pf_idx{l,1}(:,1:3))';
 
 
 plot(currentfrontLoc(1,currentImage),currentfrontLoc(2,currentImage),'o','Linewidth',3,'MarkerSize',10);
@@ -675,7 +681,7 @@ plot(currentfrontLoc(1,L1),currentfrontLoc(2,L1),'o','Linewidth',3,'MarkerSize',
 plot(currentfrontLoc(1,R1),currentfrontLoc(2,R1),'o','Linewidth',3,'MarkerSize',5);
 
     
-currentfrontId = pf_idx{l,:}(:,3);
+currentfrontId = pf_idx{l,:}(:,4);
 currentfrontId =(currentfrontId)';
 
 
@@ -1705,7 +1711,7 @@ function pushbutton14_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 maxFront = handles.maxFront;
-
+features = handles.features;
 filenames = handles.filenames;
 pf_idx = handles.pf_idx;
 %MQUR_ALL  = handles.MQUR_ALL; 
@@ -1785,6 +1791,43 @@ for ll = 1:maxFront
          
     end
 end
+
+[M,C] = size(rtr_idx{1,1}(:,1));
+
+f = features(rtr_idx{1,1}(:,1),:); 
+
+f1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q1.txt');    
+f2 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q2.txt');
+f3 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/features_q3.txt');
+
+
+
+f1_new = repmat(f1,M,1);
+f2_new = repmat(f2,M,1);
+f3_new = repmat(f3,M,1);
+
+
+dist_f1 = pdist2(f1 , f , 'euclid' );
+dist_f2 = pdist2(f2 , f , 'euclid' );
+dist_f3 = pdist2(f3 , f , 'euclid' );
+
+
+
+Y = zeros(2,M);
+Y(1,:) = dist_f1;
+Y(2,:) = dist_f2;
+Y(3,:) = dist_f3;
+
+Y = (Y)';
+Y2 = Y(:,1).^2 + Y(:,2).^2 +  Y(:,3).^2;
+
+Result = zeros(M,2);
+Result(:,1) = Y2(:);
+Result(:,2) = rtr_idx{1,1}(:,1);
+
+final_rtr = unique(Result,'rows');
+
+final_rtr_idx = final_rtr(:,2);
 
          cla(handles.axes13,'reset');
          cla(handles.axes14,'reset');
@@ -1942,6 +1985,7 @@ filenames = handles.filenames;
 targets   = handles.targets;
 video_dir = handles.video_dir;
 data_dir  = handles.data_dir;
+feature_dir = handles.feature_dir;
 
 % load([data_dir '/filenames']); % File names
 % load([data_dir '/targets']);   % Labels
@@ -1951,8 +1995,12 @@ hashCode_index = get(handles.hashCodeSelection_f, 'Value');
 switch hashCode_index
            
     case 1
-        load([data_dir '/hashCodes_128']); 
-        data = hashCodes_128;
+        %load([data_dir '/hashCodes_128']); 
+        %data = hashCodes_128;
+        load([feature_dir '/features_128']); 
+        features = features_128;
+        data = features_128 > 0.5;
+            
             mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
@@ -1978,15 +2026,20 @@ switch hashCode_index
             end
         
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_128.py');
+    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_128.py');
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
             
             
             
             
     case 2
-       load([data_dir '/hashCodes_256']); 
-       data = hashCodes_256;
-       mov=VideoReader('Python/q1.mp4');
+       %load([data_dir '/hashCodes_256']); 
+       %data = hashCodes_256;
+       load([feature_dir '/features_256']); 
+       features = features_256;
+       data = features_256 > 0.5;
+       
+            mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
                 videoFrame=read(mov,i);
@@ -2011,14 +2064,18 @@ switch hashCode_index
             end
         
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_256.py');
+    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_256.py')
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
     
     
             
     case 3
-        load([data_dir '/hashCodes_512']); 
-        data = hashCodes_512;
-        mov=VideoReader('Python/q1.mp4');
+        %load([data_dir '/hashCodes_512']); 
+        %data = hashCodes_512;
+        load([feature_dir '/features_512']); 
+        features = features_512;
+        data = features_512 > 0.5;
+            mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
                 videoFrame=read(mov,i);
@@ -2043,13 +2100,18 @@ switch hashCode_index
             end
     
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_512.py');
+    system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_512.py')
     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
     
     
     case 4
-        load([data_dir '/hashCodes_1024']); 
-        data = hashCodes_1024;
-        mov=VideoReader('Python/q1.mp4');
+        %load([data_dir '/hashCodes_1024']); 
+        %data = hashCodes_1024;
+        load([feature_dir '/features_1024']); 
+        features = features_1024;
+        data = features_1024 > 0.5;
+        
+            mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
                 videoFrame=read(mov,i);
@@ -2074,6 +2136,7 @@ switch hashCode_index
             end
     
      system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genHashCodes_1024.py');
+     system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genFeatures_1024.py')
      system('python /home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/genLabels.py');
 end
 
@@ -2086,7 +2149,7 @@ end
 %handles.filenames = filenames;
 %handles.targets = targets;
 handles.data = data;
-
+handles.features = features;
 
 guidata(hObject, handles);
 
