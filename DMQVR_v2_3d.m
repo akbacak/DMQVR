@@ -81,7 +81,7 @@ function Dataset_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns Dataset contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from Dataset
-maxFront = 10;
+maxFront = 5;
 
 dataset_index = get(handles.Dataset, 'Value');
 switch dataset_index 
@@ -274,7 +274,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     q2_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q2.txt');
     q3_label = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/label_q3.txt');
       
-    N = length(handles.filenames);  % N = 2000
+    N = length(handles.filenames);  % 
  tic
     q1new = repmat(q1,N,1);
     q2new = repmat(q2,N,1);
@@ -301,11 +301,13 @@ set(handles.tictoc,'String',num2str(t))
     [K,L] = size(unique(X,'rows'));  %% Number of unique pareto points 
     set(handles.num_pp_3d,'String',num2str(K))
 
-    axes(handles.axes3);
-    hold off; 
-    scatter3(X(:,1),X(:,2),X(:,3),'k.');
-    %plot3(X(:,1),X(:,2),X(:,3),'.');
-    hold on; 
+   axes(handles.axes3);
+   hold off; 
+   scatter3(X(:,1),X(:,2),X(:,3),'k.');
+   %plot3(X(:,1),X(:,2),X(:,3),'.');
+   view(3);
+   rotate3d on;
+   hold on; 
     
      %scatter3(X(:,1),X(:,2),X(:,3),'k.');
      
@@ -321,8 +323,7 @@ set(handles.tictoc,'String',num2str(t))
 
    
     handles.pf_idx = pf_idx;
-    handles.X = X;
-       
+    handles.X = X;       
     
     guidata(hObject, handles);
     
@@ -338,16 +339,14 @@ function FrontSelector_Callback(hObject, eventdata, handles)
 
 targets  = handles.targets;
 maxFront = handles.maxFront;
-X = handles.data;  
+data = handles.data;
+X = handles.X;
+pf_idx = handles.pf_idx;  
     
 currentFront = ((round(1+(maxFront-1)*get(hObject,'Value'))));
 
 %set(handles.FrontIdx,'String',['Pareto depth:' num2str(currentFront)] );
 set(handles.FrontNum,'String',num2str(currentFront));
-
-
-
-pf_idx = handles.pf_idx;
 
 
  axes(handles.axes3);
@@ -359,7 +358,7 @@ pf_idx = handles.pf_idx;
  hold on; 
 
  
- [pf_idx] = pareto_fronts(X, maxFront);
+
  
  %for k=1:maxFront
  %       scatter3(pf_idx{k,1}(:,1), pf_idx{k,1}(:,2) , pf_idx{k,1}(:,3)); 
@@ -376,9 +375,7 @@ pf_idx = handles.pf_idx;
   ylabel('c2');
 
  handles.currentFront = currentFront;
-    
-    
-       
+          
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     q1 = importdata('/home/ubuntu/keras/enver/dmlvh2/DMQVR/Python/Outputs/hashCodes_q1.txt');
