@@ -14,19 +14,19 @@ close all;
 clc;
 
 load('myDataset/hashCodes/filenames.mat');
-load('myDataset/hashCodes/hashCodes_512.mat');
+load('myDataset/hashCodes/hashCodes_1024.mat');
 load('myDataset/hashCodes/targets.mat');
 
-    N = 190;           % Number of samples in the myDataset
-    data = hashCodes_512; % Binary features (Hash codes) N x NumberHasBits
+    N = 120;           % Number of samples in the myDataset
+    data = hashCodes_1024; % Binary features (Hash codes) N x NumberHasBits
     
-    queryIndex = xlsread('qLabels.xls');  % Reads randomly choosen query pairs from excell file
+    queryIndex = xlsread('qLabels_1.xls');  % Reads randomly choosen query pairs from excell file
     queryIndex = transpose( queryIndex ); 
     queryIndex1 = queryIndex(1,:);        % First element of Query Pair
     queryIndex2 = queryIndex(2,:);        % Second element of Query Pair
     
     
-    for l = 1:500                 % Number of Query Pairs
+    for l = 1:250                 % Number of Query Pairs
               
         q1 = data(queryIndex1,:);         % q1 & q2 are query pairs in the loop
         q2 = data(queryIndex2,:);
