@@ -1993,11 +1993,11 @@ hashCode_index = get(handles.hashCodeSelection_f, 'Value');
 switch hashCode_index
            
     case 1
-        %load([data_dir '/hashCodes_128']); 
-        %data = hashCodes_128;
+        load([data_dir '/hashCodes_128']); 
+        data = hashCodes_128;
         load([feature_dir '/features_128']); 
         features = features_128;
-        data = features_128 > 0.5;
+        %data = features_128 > 0.5;
             
             mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
@@ -2031,11 +2031,11 @@ switch hashCode_index
             
             
     case 2
-       %load([data_dir '/hashCodes_256']); 
-       %data = hashCodes_256;
+       load([data_dir '/hashCodes_256']); 
+       data = hashCodes_256;
        load([feature_dir '/features_256']); 
        features = features_256;
-       data = features_256 > 0.5;
+       %data = features_256 > 0.5;
        
             mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
@@ -2068,11 +2068,11 @@ switch hashCode_index
     
             
     case 3
-        %load([data_dir '/hashCodes_512']); 
-        %data = hashCodes_512;
+        load([data_dir '/hashCodes_512']); 
+        data = hashCodes_512;
         load([feature_dir '/features_512']); 
         features = features_512;
-        data = features_512 > 0.5;
+        %data = features_512 > 0.5;
             mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
             for i=1:nFrames
@@ -2103,11 +2103,11 @@ switch hashCode_index
     
     
     case 4
-        %load([data_dir '/hashCodes_1024']); 
-        %data = hashCodes_1024;
+        load([data_dir '/hashCodes_1024']); 
+        data = hashCodes_1024;
         load([feature_dir '/features_1024']); 
         features = features_1024;
-        data = features_1024 > 0.5;
+        %data = features_1024 > 0.5;
         
             mov=VideoReader('Python/q1.mp4');
             nFrames=mov.NumberOfFrames;
