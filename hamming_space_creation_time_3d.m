@@ -17,8 +17,7 @@ close all;
 clc;
 
 
-tic 
-for m = 1:100
+
 
 load('myDataset2/hashCodes/filenames.mat');
 load('myDataset2/hashCodes/hashCodes_128.mat');
@@ -32,7 +31,7 @@ load('myDataset2/hashCodes/targets.mat');
     queryIndex2 = queryIndex(2,:);        % Second element of Query Pair
     queryIndex3 = queryIndex(3,:);
     
-    
+    tic
     for l = 1:150                  % Number of Query Pairs
         
         q1 = data(queryIndex1,:);         % q1 & q2 are query pairs in the loop
@@ -61,4 +60,4 @@ load('myDataset2/hashCodes/targets.mat');
     end
     
     
-toc/100
+toc/150
