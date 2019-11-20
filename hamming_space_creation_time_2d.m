@@ -18,24 +18,24 @@ clear all;
 close all;
 clc;
 
-tic
 
-for m = 1:100
 
-load('myDataset2/hashCodes/filenames.mat');
-load('myDataset2/hashCodes/hashCodes_1024.mat');
-load('myDataset2/hashCodes/targets.mat');
 
-    N = 90;           % Number of samples in the myDataset
-    data = hashCodes_1024; % Binary features (Hash codes) N x NumberHasBits
+
+load('myDataset/hashCodes/filenames.mat');
+load('myDataset/hashCodes/hashCodes_32.mat');
+load('myDataset/hashCodes/targets.mat');
+
+    N = 120;           % Number of samples in the myDataset
+    data = hashCodes_32; % Binary features (Hash codes) N x NumberHasBits
     
-    queryIndex = xlsread('qLabels_2.xls');  % Reads randomly choosen query pairs from excell file
+    queryIndex = xlsread('qLabels_1.xls');  % Reads randomly choosen query pairs from excell file
     queryIndex = transpose( queryIndex ); 
     queryIndex1 = queryIndex(1,:);        % First element of Query Pair
     queryIndex2 = queryIndex(2,:);        % Second element of Query Pair
     
-    
-    for l = 1:150           % Number of Query Pairs
+  tic    
+    for l = 1:250           % Number of Query Pairs
               
         q1 = data(queryIndex1,:);         % q1 & q2 are query pairs in the loop
         q2 = data(queryIndex2,:);
@@ -54,6 +54,6 @@ load('myDataset2/hashCodes/targets.mat');
         X(1,:) = hamming_dist1{l,:};
         X(2,:) = hamming_dist2{l,:};
     end
-end
+
     
-toc/100
+toc/250
